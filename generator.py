@@ -1,9 +1,19 @@
 import customtkinter 
 import tempfile, base64, zlib
 from PIL import Image, ImageTk
+import random
+import string
+
+number = []
+for i in range(1,38):
+    number.append(i)
+
+special_characters_list = string.punctuation
+letters = string.ascii_lowercase 
+letters_upper = string.ascii_uppercase
+number = string.digits
 
 
-# for remove tk iconbit
 ICON = zlib.decompress(base64.b64decode('eJxjYGAEQgEBBiDJwZDBy'
     'sAgxsDAoAHEQCEGBQaIOAg4sDIgACMUj4JRMApGwQgF/ykEAFXxQRc='))
 
@@ -19,6 +29,49 @@ screen._set_appearance_mode("dark")
 screen.resizable(False,False)
 screen.iconbitmap(default=ICON_PATH)
 
+slider_value = 7
+special_value = "on"
+upper_value = "on"
+number_value = "on"
+
+password_random_generater = []
+
+def generate_password():
+    global password_random_generater
+    password_random_generater = []
+
+    if special_value == "on":
+        password_random_generater.extend(special_characters_list)
+        password_random_generater.extend(letters)
+    elif special_value == "off":
+        if letters not in password_random_generater:
+            password_random_generater.extend(letters)
+    if upper_value == "on":
+        if letters_upper not in password_random_generater:
+            password_random_generater.extend(letters_upper)
+        if letters not in password_random_generater:
+            password_random_generater.extend(letters)
+    elif upper_value == "off":
+        if letters not in password_random_generater:
+            password_random_generater.extend(letters)
+    if number_value == "on":
+        if number not in password_random_generater:
+            password_random_generater.extend(number)
+        if letters not in password_random_generater:
+            password_random_generater.extend(letters)
+    elif number_value == "off":
+        if letters not in password_random_generater:
+            password_random_generater.extend(letters)
+
+    chosen_password = ''.join(random.choice(password_random_generater) for _ in range(slider_value))
+    if len(chosen_password) >30:
+        pswd_edited = chosen_password[:30]
+        password_show_label.configure(text=pswd_edited)
+    else:
+        password_show_label.configure(text=chosen_password)
+    
+    
+    
 font_1 = ("Arial",105)
 font_2 = ("Arial", 50,"bold")
 font_3 = ("Arial", 20)
@@ -42,14 +95,17 @@ dont_panic_1.place(x=30, y=70)
 dont_panic_1 = customtkinter.CTkLabel(screen,text="i don't look your password ehehe", font=font_3, text_color="#72B3F9",bg_color="gray16")
 dont_panic_1.place(x=50, y=130)
 
-show_text_label = customtkinter.CTkFrame(screen, width=250,
+show_text_frame= customtkinter.CTkFrame(screen, width=250,
                                height=30,
                                fg_color="white",
                                border_width=2,
                                border_color="gray40",
                                bg_color="gray15",
                                corner_radius=20)
-show_text_label.place(x=20, y=185)
+show_text_frame.place(x=20, y=185)
+
+password_show_label = customtkinter.CTkLabel(screen, text="",text_color="black",fg_color="white",height=15)
+password_show_label.place(x=35,y=190)
 
 copy_button = customtkinter.CTkButton(master=screen,
                                  width=20,
@@ -81,6 +137,8 @@ slider_frame.place(x= 12, y=245)
 current_value = customtkinter.DoubleVar()
 
 def get_current_value():
+    global slider_value
+    slider_value = int('{: .0f}'.format(current_value.get()))
     return '{: .0f}'.format(current_value.get())
 
 def slider_changed(event):
@@ -94,7 +152,7 @@ print(password_length)
 value_of_slider = customtkinter.CTkLabel(screen,text=f"length of password:{get_current_value()}",font=font_4,bg_color="gray20")
 value_of_slider.place(x=25,y=270)
 
-switch_label = customtkinter.CTkFrame(screen, width=200,
+switch_frame = customtkinter.CTkFrame(screen, width=200,
                                height=110,
                                fg_color="gray20",
                                border_width=2,
@@ -102,10 +160,17 @@ switch_label = customtkinter.CTkFrame(screen, width=200,
                                bg_color="gray15",
                                corner_radius=15)
 
-switch_label.place(x=10,y=320)
+switch_frame.place(x=10,y=320)
+
+captial_and_special_label = customtkinter.CTkLabel(screen,text="----------------------------------", bg_color="gray20",text_color="gray40")
+captial_and_special_label.place(x=40,y=344)
+
+captial_and_number_label = customtkinter.CTkLabel(screen,text="----------------------------------", bg_color="gray20",text_color="gray40")
+captial_and_number_label.place(x=40,y=378)
 
 def get_special_characters():
-    return print(special_characters_var.get())
+    global special_value
+    special_value=special_characters_var.get()
 
 special_characters_var = customtkinter.StringVar(value="on")
 
@@ -114,7 +179,8 @@ special_characters.place(x=20,y=330)
 
 
 def get_upper_characters():
-    return print(upper_charascters_var.get())
+    global upper_value
+    upper_value = upper_charascters_var.get()
 
 upper_charascters_var = customtkinter.StringVar(value="on")
 
@@ -123,12 +189,17 @@ upper_charascters.place(x=20,y=365)
 
 
 def get_number_characters():
-    return print(number_charascters_var.get())
+    global number_value 
+    number_value = number_charascters_var.get()
 
 number_charascters_var = customtkinter.StringVar(value="on")
 
 number_charascters = customtkinter.CTkSwitch(screen ,text="Number characters",variable=number_charascters_var, onvalue="on", offvalue="off",command=get_number_characters,font=font_4,width=5,bg_color="gray20")
 number_charascters.place(x=20,y=395)
+
+
+strong_password = customtkinter.CTkProgressBar(screen, orientation="vertical",height=180,corner_radius=0)
+strong_password.place(x=225, y=250)
 
 password_button = customtkinter.CTkButton(master=screen,
                                  width=50,
@@ -141,7 +212,8 @@ password_button = customtkinter.CTkButton(master=screen,
                                  text="Generate password",
                                  text_color="white",
                                  hover_color="light blue",
-                                 font=font_4)
+                                 font=font_4,
+                                 command=generate_password)
 
 password_button.place(x=20,y=450)
 
