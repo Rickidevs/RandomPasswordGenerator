@@ -3,6 +3,7 @@ import tempfile, base64, zlib
 from PIL import Image, ImageTk
 import random
 import string
+import pyperclip
 
 number = []
 for i in range(1,38):
@@ -34,10 +35,9 @@ special_value = "on"
 upper_value = "on"
 number_value = "on"
 
-password_random_generater = []
-
+chosen_password = ""
 def generate_password():
-    global password_random_generater
+    global chosen_password
     password_random_generater = []
 
     if special_value == "on":
@@ -70,8 +70,9 @@ def generate_password():
     else:
         password_show_label.configure(text=chosen_password)
     
-    
-    
+def copy_text_to_clipboard():
+    pyperclip.copy(chosen_password)
+
 font_1 = ("Arial",105)
 font_2 = ("Arial", 50,"bold")
 font_3 = ("Arial", 20)
@@ -118,8 +119,8 @@ copy_button = customtkinter.CTkButton(master=screen,
                                  text="copy",
                                  text_color="white",
                                  hover_color="light blue",
-                                 font=font_4
-                                 )
+                                 font=font_4,
+                                 command=copy_text_to_clipboard)
 
 copy_button.place(x=280,y=185)
 
