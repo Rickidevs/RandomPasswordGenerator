@@ -26,19 +26,19 @@ font_4 = ("Arial",15,"bold")
 
 logo_frame = customtkinter.CTkFrame(screen, width=350,
                                height=160,
-                               fg_color="gray20",
+                               fg_color="gray16",
                                border_width=2,
                                border_color="gray25",
                                corner_radius=20)
 logo_frame.place(x=8,y=8)
 
-monkey_logo = customtkinter.CTkLabel(screen,text="🫣", font=font_1, text_color="#72B3F9",bg_color="gray20")
+monkey_logo = customtkinter.CTkLabel(screen,text="🫣", font=font_1, text_color="#72B3F9",bg_color="gray16")
 monkey_logo.place(x=180, y=10)
-dont_panic = customtkinter.CTkLabel(screen,text="Don't", font=font_2, text_color="#72B3F9",bg_color="gray20")
+dont_panic = customtkinter.CTkLabel(screen,text="Don't", font=font_2, text_color="#72B3F9",bg_color="gray16")
 dont_panic.place(x=10, y=20)
-dont_panic_1 = customtkinter.CTkLabel(screen,text="panic", font=font_2, text_color="#72B3F9",bg_color="gray20")
+dont_panic_1 = customtkinter.CTkLabel(screen,text="panic", font=font_2, text_color="#72B3F9",bg_color="gray16")
 dont_panic_1.place(x=30, y=70)
-dont_panic_1 = customtkinter.CTkLabel(screen,text="i don't look your password ehehe", font=font_3, text_color="#72B3F9",bg_color="gray20")
+dont_panic_1 = customtkinter.CTkLabel(screen,text="i don't look your password ehehe", font=font_3, text_color="#72B3F9",bg_color="gray16")
 dont_panic_1.place(x=50, y=130)
 
 show_text_label = customtkinter.CTkFrame(screen, width=250,
@@ -48,7 +48,7 @@ show_text_label = customtkinter.CTkFrame(screen, width=250,
                                border_color="gray40",
                                bg_color="gray15",
                                corner_radius=20)
-show_text_label.place(x=20, y=180)
+show_text_label.place(x=20, y=185)
 
 copy_button = customtkinter.CTkButton(master=screen,
                                  width=20,
@@ -63,7 +63,38 @@ copy_button = customtkinter.CTkButton(master=screen,
                                  hover_color="light blue",
                                  font=font_4
                                  )
-copy_button.place(x=280,y=180)
+
+copy_button.place(x=280,y=185)
+
+
+slider_frame = customtkinter.CTkFrame(screen, width=200,
+                               height=60,
+                               fg_color="gray20",
+                               border_width=2,
+                               border_color="gray40",
+                               bg_color="gray15",
+                               corner_radius=15)
+
+slider_frame.place(x= 12, y=245)
+
+current_value = customtkinter.DoubleVar()
+
+def get_current_value():
+    return '{: .0f}'.format(current_value.get())
+
+def slider_changed(event):
+    value_of_slider.configure(text=f"length of password:{get_current_value()}")
+
+password_length_scroll = customtkinter.CTkSlider(screen, from_=0, to=36,variable=current_value,command=slider_changed,width=180,bg_color="gray20")
+password_length_scroll.place(x=20,y=250)
+password_length = get_current_value()
+print(password_length)
+
+value_of_slider = customtkinter.CTkLabel(screen,text=f"length of password:{get_current_value()}",font=font_4,bg_color="gray20")
+value_of_slider.place(x=25,y=270)
+
+
+
 
 password_button = customtkinter.CTkButton(master=screen,
                                  width=50,
@@ -77,6 +108,7 @@ password_button = customtkinter.CTkButton(master=screen,
                                  text_color="white",
                                  hover_color="light blue",
                                  font=font_4)
-password_button.place(x=20,y=250)
+
+password_button.place(x=20,y=400)
 
 screen.mainloop()
