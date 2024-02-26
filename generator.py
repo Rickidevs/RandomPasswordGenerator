@@ -14,7 +14,7 @@ with open(ICON_PATH, 'wb') as icon_file:
 
 screen = customtkinter.CTk()
 screen.title("Modern RPG")
-screen.geometry("370x450")
+screen.geometry("370x500")
 screen._set_appearance_mode("dark")
 screen.resizable(False,False)
 screen.iconbitmap(default=ICON_PATH)
@@ -23,6 +23,7 @@ font_1 = ("Arial",105)
 font_2 = ("Arial", 50,"bold")
 font_3 = ("Arial", 20)
 font_4 = ("Arial",15,"bold")
+font_5 = ("Arial",15)
 
 logo_frame = customtkinter.CTkFrame(screen, width=350,
                                height=160,
@@ -85,7 +86,7 @@ def get_current_value():
 def slider_changed(event):
     value_of_slider.configure(text=f"length of password:{get_current_value()}")
 
-password_length_scroll = customtkinter.CTkSlider(screen, from_=0, to=36,variable=current_value,command=slider_changed,width=180,bg_color="gray20")
+password_length_scroll = customtkinter.CTkSlider(screen, from_=7, to=36,variable=current_value,command=slider_changed,width=180,bg_color="gray20")
 password_length_scroll.place(x=20,y=250)
 password_length = get_current_value()
 print(password_length)
@@ -93,8 +94,41 @@ print(password_length)
 value_of_slider = customtkinter.CTkLabel(screen,text=f"length of password:{get_current_value()}",font=font_4,bg_color="gray20")
 value_of_slider.place(x=25,y=270)
 
+switch_label = customtkinter.CTkFrame(screen, width=200,
+                               height=110,
+                               fg_color="gray20",
+                               border_width=2,
+                               border_color="gray40",
+                               bg_color="gray15",
+                               corner_radius=15)
+
+switch_label.place(x=10,y=320)
+
+def get_special_characters():
+    return print(special_characters_var.get())
+
+special_characters_var = customtkinter.StringVar(value="on")
+
+special_characters = customtkinter.CTkSwitch(screen ,text="Special characters",variable=special_characters_var, onvalue="on", offvalue="off",command=get_special_characters,font=font_4,bg_color="gray20")
+special_characters.place(x=20,y=330)
 
 
+def get_upper_characters():
+    return print(upper_charascters_var.get())
+
+upper_charascters_var = customtkinter.StringVar(value="on")
+
+upper_charascters = customtkinter.CTkSwitch(screen ,text="Capital letters",variable=upper_charascters_var, onvalue="on", offvalue="off",command=get_upper_characters,font=font_4,width=5,bg_color="gray20")
+upper_charascters.place(x=20,y=365)
+
+
+def get_number_characters():
+    return print(number_charascters_var.get())
+
+number_charascters_var = customtkinter.StringVar(value="on")
+
+number_charascters = customtkinter.CTkSwitch(screen ,text="Number characters",variable=number_charascters_var, onvalue="on", offvalue="off",command=get_number_characters,font=font_4,width=5,bg_color="gray20")
+number_charascters.place(x=20,y=395)
 
 password_button = customtkinter.CTkButton(master=screen,
                                  width=50,
@@ -109,6 +143,6 @@ password_button = customtkinter.CTkButton(master=screen,
                                  hover_color="light blue",
                                  font=font_4)
 
-password_button.place(x=20,y=400)
+password_button.place(x=20,y=450)
 
 screen.mainloop()
