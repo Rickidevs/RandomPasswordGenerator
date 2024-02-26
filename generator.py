@@ -22,6 +22,7 @@ screen.iconbitmap(default=ICON_PATH)
 font_1 = ("Arial",105)
 font_2 = ("Arial", 50,"bold")
 font_3 = ("Arial", 20)
+font_4 = ("Arial",15,"bold")
 
 logo_frame = customtkinter.CTkFrame(screen, width=350,
                                height=160,
@@ -29,7 +30,7 @@ logo_frame = customtkinter.CTkFrame(screen, width=350,
                                border_width=2,
                                border_color="gray25",
                                corner_radius=20)
-logo_frame.place(x=8,y=10)
+logo_frame.place(x=8,y=8)
 
 monkey_logo = customtkinter.CTkLabel(screen,text="🫣", font=font_1, text_color="#72B3F9",bg_color="gray20")
 monkey_logo.place(x=180, y=10)
@@ -40,6 +41,42 @@ dont_panic_1.place(x=30, y=70)
 dont_panic_1 = customtkinter.CTkLabel(screen,text="i don't look your password ehehe", font=font_3, text_color="#72B3F9",bg_color="gray20")
 dont_panic_1.place(x=50, y=130)
 
+show_text_label = customtkinter.CTkFrame(screen, width=250,
+                               height=30,
+                               fg_color="white",
+                               border_width=2,
+                               border_color="gray40",
+                               bg_color="gray15",
+                               corner_radius=20)
+show_text_label.place(x=20, y=180)
 
+copy_button = customtkinter.CTkButton(master=screen,
+                                 width=20,
+                                 height=30,
+                                 border_color="light blue",
+                                 border_width=2,
+                                 corner_radius=20,
+                                 fg_color="#72B3F9",
+                                 bg_color="gray15",
+                                 text="copy",
+                                 text_color="white",
+                                 hover_color="light blue",
+                                 font=font_4
+                                 )
+copy_button.place(x=280,y=180)
+
+password_button = customtkinter.CTkButton(master=screen,
+                                 width=50,
+                                 height=30,
+                                 border_color="light blue",
+                                 border_width=2,
+                                 corner_radius=20,
+                                 fg_color="#72B3F9",
+                                 bg_color="gray15",
+                                 text="Generate password",
+                                 text_color="white",
+                                 hover_color="light blue",
+                                 font=font_4)
+password_button.place(x=20,y=250)
 
 screen.mainloop()
