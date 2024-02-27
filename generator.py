@@ -4,6 +4,8 @@ from PIL import Image, ImageTk
 import random
 import string
 import pyperclip
+from tkinter import ttk
+import tkinter as tk
 
 number = []
 for i in range(1,38):
@@ -34,10 +36,10 @@ slider_value = 7
 special_value = "on"
 upper_value = "on"
 number_value = "on"
-
 chosen_password = ""
 def generate_password():
     global chosen_password
+    copy_button.configure(text=" Copy  ")
     password_random_generater = []
 
     if special_value == "on":
@@ -72,12 +74,14 @@ def generate_password():
     
 def copy_text_to_clipboard():
     pyperclip.copy(chosen_password)
+    copy_button.configure(text="Copied")
 
 font_1 = ("Arial",105)
 font_2 = ("Arial", 50,"bold")
 font_3 = ("Arial", 20)
 font_4 = ("Arial",15,"bold")
 font_5 = ("Arial",15)
+
 
 logo_frame = customtkinter.CTkFrame(screen, width=350,
                                height=160,
@@ -109,14 +113,14 @@ password_show_label = customtkinter.CTkLabel(screen, text="",text_color="black",
 password_show_label.place(x=35,y=190)
 
 copy_button = customtkinter.CTkButton(master=screen,
-                                 width=20,
+                                 width=30,
                                  height=30,
                                  border_color="light blue",
                                  border_width=2,
                                  corner_radius=20,
                                  fg_color="#72B3F9",
                                  bg_color="gray15",
-                                 text="copy",
+                                 text=" Copy  ",
                                  text_color="white",
                                  hover_color="light blue",
                                  font=font_4,
@@ -135,12 +139,48 @@ slider_frame = customtkinter.CTkFrame(screen, width=200,
 
 slider_frame.place(x= 12, y=245)
 
-current_value = customtkinter.DoubleVar()
+current_value = customtkinter.DoubleVar(value=7)
+old_slider_value=0
+
+s = ttk.Style()
+s.theme_use('clam')
+s.configure("green.Horizontal.TProgressbar", foreground='green', background='green')
+strong_password = ttk.Progressbar(screen, orient='vertical', mode='determinate',length=225,value=70.5,style="green.Horizontal.TProgressbar")
+strong_password.place(x=290, y=310)
 
 def get_current_value():
-    global slider_value
+    global slider_value,old_slider_value,strong_password
+    old_value = old_slider_value
     slider_value = int('{: .0f}'.format(current_value.get()))
+    old_slider_value = slider_value
+    if slider_value > old_value:  
+        strong_password['value'] += 1.5
+        if strong_password["value"]<40:
+            s.configure("red.Horizontal.TProgressbar", foreground='red', background='red')
+            strong_password.configure(style="red.Horizontal.TProgressbar")
+        elif 70 > strong_password["value"] > 40 :
+            s.configure("yellow.Horizontal.TProgressbar", foreground='yellow', background='yellow')
+            strong_password.configure(style="yellow.Horizontal.TProgressbar")
+        elif  strong_password["value"] >= 70:
+            s.configure("green.Horizontal.TProgressbar", foreground='green', background='green')
+            strong_password.configure(style="green.Horizontal.TProgressbar")
+        
+    elif slider_value < old_value:      
+        strong_password['value'] -= 1.5
+        if strong_password["value"]<40:
+            s.configure("red.Horizontal.TProgressbar", foreground='red', background='red')
+            strong_password.configure(style="red.Horizontal.TProgressbar")
+        elif 70 > strong_password["value"] > 40 :
+            s.configure("yellow.Horizontal.TProgressbar", foreground='yellow', background='yellow')
+            strong_password.configure(style="yellow.Horizontal.TProgressbar")
+        elif  strong_password["value"] >= 70:
+            s.configure("green.Horizontal.TProgressbar", foreground='green', background='green')
+            strong_password.configure(style="green.Horizontal.TProgressbar")      
+    else:
+        pass
+
     return '{: .0f}'.format(current_value.get())
+
 
 def slider_changed(event):
     value_of_slider.configure(text=f"length of password:{get_current_value()}")
@@ -172,6 +212,29 @@ captial_and_number_label.place(x=40,y=378)
 def get_special_characters():
     global special_value
     special_value=special_characters_var.get()
+    if special_value == "on":
+        strong_password['value'] += 20
+        if strong_password["value"]<40:
+            s.configure("red.Horizontal.TProgressbar", foreground='red', background='red')
+            strong_password.configure(style="red.Horizontal.TProgressbar")
+        elif 70 > strong_password["value"] > 40 :
+            s.configure("yellow.Horizontal.TProgressbar", foreground='yellow', background='yellow')
+            strong_password.configure(style="yellow.Horizontal.TProgressbar")
+        elif  strong_password["value"] >= 70:
+            s.configure("green.Horizontal.TProgressbar", foreground='green', background='green')
+            strong_password.configure(style="green.Horizontal.TProgressbar")
+    else:
+        strong_password['value'] -= 20
+        if strong_password["value"]<40:
+            s.configure("red.Horizontal.TProgressbar", foreground='red', background='red')
+            strong_password.configure(style="red.Horizontal.TProgressbar")
+        elif 70 > strong_password["value"] > 40 :
+            s.configure("yellow.Horizontal.TProgressbar", foreground='yellow', background='yellow')
+            strong_password.configure(style="yellow.Horizontal.TProgressbar")
+        elif  strong_password["value"] >= 70:
+            s.configure("green.Horizontal.TProgressbar", foreground='green', background='green')
+            strong_password.configure(style="green.Horizontal.TProgressbar")
+
 
 special_characters_var = customtkinter.StringVar(value="on")
 
@@ -182,6 +245,28 @@ special_characters.place(x=20,y=330)
 def get_upper_characters():
     global upper_value
     upper_value = upper_charascters_var.get()
+    if upper_value == "on":
+        strong_password['value'] += 20
+        if strong_password["value"]<40:
+            s.configure("red.Horizontal.TProgressbar", foreground='red', background='red')
+            strong_password.configure(style="red.Horizontal.TProgressbar")
+        elif 70 > strong_password["value"] > 40 :
+            s.configure("yellow.Horizontal.TProgressbar", foreground='yellow', background='yellow')
+            strong_password.configure(style="yellow.Horizontal.TProgressbar")
+        elif  strong_password["value"] >= 70:
+            s.configure("green.Horizontal.TProgressbar", foreground='green', background='green')
+            strong_password.configure(style="green.Horizontal.TProgressbar")
+    else:
+        strong_password['value'] -= 20
+        if strong_password["value"]<40:
+            s.configure("red.Horizontal.TProgressbar", foreground='red', background='red')
+            strong_password.configure(style="red.Horizontal.TProgressbar")
+        elif 70 > strong_password["value"] > 40 :
+            s.configure("yellow.Horizontal.TProgressbar", foreground='yellow', background='yellow')
+            strong_password.configure(style="yellow.Horizontal.TProgressbar")
+        elif  strong_password["value"] >= 70:
+            s.configure("green.Horizontal.TProgressbar", foreground='green', background='green')
+            strong_password.configure(style="green.Horizontal.TProgressbar")
 
 upper_charascters_var = customtkinter.StringVar(value="on")
 
@@ -192,15 +277,34 @@ upper_charascters.place(x=20,y=365)
 def get_number_characters():
     global number_value 
     number_value = number_charascters_var.get()
+    if number_value == "on":
+        strong_password['value'] += 20
+        if strong_password["value"]<40:
+            s.configure("red.Horizontal.TProgressbar", foreground='red', background='red')
+            strong_password.configure(style="red.Horizontal.TProgressbar")
+        elif 70 > strong_password["value"] > 40 :
+            s.configure("yellow.Horizontal.TProgressbar", foreground='yellow', background='yellow')
+            strong_password.configure(style="yellow.Horizontal.TProgressbar")
+        elif  strong_password["value"] >= 70:
+            s.configure("green.Horizontal.TProgressbar", foreground='green', background='green')
+            strong_password.configure(style="green.Horizontal.TProgressbar")
+    else:
+        strong_password['value'] -= 20
+        if strong_password["value"]<40:
+            s.configure("red.Horizontal.TProgressbar", foreground='red', background='red')
+            strong_password.configure(style="red.Horizontal.TProgressbar")
+        elif 70 > strong_password["value"] > 40 :
+            s.configure("yellow.Horizontal.TProgressbar", foreground='yellow', background='yellow')
+            strong_password.configure(style="yellow.Horizontal.TProgressbar")
+        elif  strong_password["value"] >= 70:
+            s.configure("green.Horizontal.TProgressbar", foreground='green', background='green')
+            strong_password.configure(style="green.Horizontal.TProgressbar")
 
 number_charascters_var = customtkinter.StringVar(value="on")
 
 number_charascters = customtkinter.CTkSwitch(screen ,text="Number characters",variable=number_charascters_var, onvalue="on", offvalue="off",command=get_number_characters,font=font_4,width=5,bg_color="gray20")
 number_charascters.place(x=20,y=395)
 
-
-strong_password = customtkinter.CTkProgressBar(screen, orientation="vertical",height=180,corner_radius=0)
-strong_password.place(x=225, y=250)
 
 password_button = customtkinter.CTkButton(master=screen,
                                  width=50,
@@ -217,5 +321,59 @@ password_button = customtkinter.CTkButton(master=screen,
                                  command=generate_password)
 
 password_button.place(x=20,y=450)
+
+
+def encyption_screen():
+
+    escreen_frame =customtkinter.CTkFrame(screen, width=380,
+                               height=280,
+                               fg_color="gray14",
+                               bg_color="gray14",
+                               corner_radius=0)
+    escreen_frame.place(x=0,y=230)
+    tabview = customtkinter.CTkTabview(master=escreen_frame)
+
+    tabview.add("Cryption")  # add tab at the end
+    tabview.add("Decrption")  # add tab at the end
+    tabview.set("Decrption")  # set currently visible tab
+
+    name_of_password =  customtkinter.CTkEntry(tabview.tab("Cryption"),placeholder_text="Name of password",corner_radius=15,width=250,height=30,font=font_5)
+    name_of_password.place(x=17,y=15)
+    password_for_ctyption =  customtkinter.CTkEntry(tabview.tab("Cryption"),placeholder_text="Password for decryption",corner_radius=15,width=250,height=30,font=font_5)
+    password_for_ctyption.place(x=17,y=55)
+    note_for_password =  customtkinter.CTkEntry(tabview.tab("Cryption"),placeholder_text="Note for password (optional)",corner_radius=15,width=250,height=30,font=font_5)
+    note_for_password.place(x=17,y=95)
+    save_cryption = customtkinter.CTkButton(tabview.tab("Cryption"),
+                                 width=50,
+                                 height=30,
+                                 border_color="light blue",
+                                 border_width=2,
+                                 corner_radius=13,
+                                 fg_color="#72B3F9",
+                                 bg_color="gray17",
+                                 text="Save",
+                                 text_color="white",
+                                 hover_color="light blue",
+                                 font=font_4)
+    save_cryption.place(x=110,y=150)
+    tabview.place(x=35,y=0)
+    
+encyption_button = customtkinter.CTkButton(master=screen,
+                                 width=50,
+                                 height=30,
+                                 border_color="light blue",
+                                 border_width=2,
+                                 corner_radius=20,
+                                 fg_color="#72B3F9",
+                                 bg_color="gray15",
+                                 text="Cryption",
+                                 text_color="white",
+                                 hover_color="light blue",
+                                 font=font_4,
+                                 command=encyption_screen)
+
+encyption_button.place(x=260,y=250)
+
+
 
 screen.mainloop()
