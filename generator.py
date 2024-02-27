@@ -6,6 +6,9 @@ import string
 import pyperclip
 from tkinter import ttk
 import tkinter as tk
+import os
+from pathlib import Path
+from CTkMessagebox import CTkMessagebox
 
 number = []
 for i in range(1,38):
@@ -337,6 +340,52 @@ def encyption_screen():
     tabview.add("Decrption")  # add tab at the end
     tabview.set("Decrption")  # set currently visible tab
 
+    def generate_cryption():
+        name_passwrod = name_of_password.get()
+        password_cryption = password_for_ctyption.get()
+        note_password = note_for_password.get()
+        if name_passwrod == "":
+            name_of_password.configure(border_color="red",placeholder_text="Name of password")
+        elif password_cryption == "":
+            password_for_ctyption.configure(border_color="red",placeholder_text="Password for decryption")
+        
+        elif len(chosen_password) == 0 :
+             CTkMessagebox(title="Warning!",icon="warning", message="Generate The Password", option_1="OK",width=400,height=150, font=font_4,button_color="#72B3F9",title_color="#72B3F9",button_hover_color="light blue",sound="ON", button_width= 10)
+        else:
+            def key_encode(key,clear):
+                enc = []
+                for i in range(len(clear)):
+                    key_c = key[i % len(key)]
+                    enc_c = chr((ord(clear[i]) + ord(key_c)) % 256)
+                    enc.append(enc_c)
+                return base64.urlsafe_b64encode("".join(enc).encode()).decode()
+            
+            password_encypted = key_encode(password_cryption,chosen_password)
+
+            try:
+
+                path_to_download = os.path.join(Path.home(), 'Desktop')
+                with open(f"{path_to_download}/mysecret.txt", "a") as data_file:
+                    data_file.write(f'\n--------\nFor: {name_passwrod}\nDescription: {note_password}\nPassword: {password_encypted}\n--------\n')
+            except FileNotFoundError:
+                with open(f"{path_to_download}/mysecret.txt", "w") as data_file:
+                    data_file.write(f'\n{password_encypted}')
+            
+            save_cryption.configure(text="Saved!")
+            name_of_password.delete(0,"end")
+            password_for_ctyption.delete(0,"end")
+            note_for_password.delete(0,"end")
+
+    def decode(key, enc):
+        dec = []
+        enc = base64.urlsafe_b64decode(enc).decode()
+        for i in range(len(enc)):
+            key_c = key[i % len(key)]
+            dec_c = chr((256 + ord(enc[i]) - ord(key_c)) % 256)
+            dec.append(dec_c)
+        return "".join(dec)
+
+
     name_of_password =  customtkinter.CTkEntry(tabview.tab("Cryption"),placeholder_text="Name of password",corner_radius=15,width=250,height=30,font=font_5)
     name_of_password.place(x=17,y=15)
     password_for_ctyption =  customtkinter.CTkEntry(tabview.tab("Cryption"),placeholder_text="Password for decryption",corner_radius=15,width=250,height=30,font=font_5)
@@ -354,8 +403,111 @@ def encyption_screen():
                                  text="Save",
                                  text_color="white",
                                  hover_color="light blue",
-                                 font=font_4)
-    save_cryption.place(x=110,y=150)
+                                 font=font_4,
+                                 command=generate_cryption)
+    save_cryption.place(x=60,y=150)
+
+    def destroy_frame():
+         escreen_frame.destroy()
+
+    back_button =customtkinter.CTkButton(tabview.tab("Cryption"),width=50,
+                                 height=30,
+                                 border_color="light blue",
+                                 border_width=2,
+                                 corner_radius=13,
+                                 fg_color="#72B3F9",
+                                 bg_color="gray17",
+                                 text="Back",
+                                 text_color="white",
+                                 hover_color="light blue",
+                                 font=font_4,
+                                 command=destroy_frame)
+    back_button.place(x=150,y=150)
+
+    encryption_text = customtkinter.CTkEntry(tabview.tab("Decrption"),placeholder_text="Enter encrypted text",corner_radius=15,width=250,height=30,font=font_5)
+    encryption_text.place(x=17,y=15)
+    encryption_password = customtkinter.CTkEntry(tabview.tab("Decrption"),placeholder_text="Enter Password",corner_radius=15,width=250,height=30,font=font_5)
+    encryption_password.place(x=17,y=55)
+
+    def copy_text_to_clipboard_password():
+        try:
+            pyperclip.copy(decode_password)
+            copy_password_in_frame.configure(text="Copied")
+        except:
+            troll_message = "OOOO Meeeen"
+            pyperclip.copy(troll_message)
+            copy_password_in_frame.configure(text="Copied")
+
+    def decode_function():
+        global decode_password
+        enc_text = encryption_text.get()
+        enc_password = encryption_password.get()
+        if enc_text == "":
+            encryption_text.configure(border_color="red")
+        elif enc_password == "":
+            encryption_password.configure(border_color="red")
+        else:
+            decode_show_label=customtkinter.CTkLabel(tabview.tab("Decrption"), text="*************",text_color="black",fg_color="white",height=15)
+            try:
+                 decode_password = decode(enc_password,enc_text)
+                 decode_show_label.place(x=30,y=105)
+            except:
+                decode_show_label.place(x=30,y=105)
+            
+
+    show_password_frame = customtkinter.CTkFrame(tabview.tab("Decrption"), width=170,
+                               height=30,
+                               fg_color="white",
+                               border_width=2,
+                               border_color="gray40",
+                               bg_color="gray15",
+                               corner_radius=20)
+    show_password_frame.place(x=17,y=95)
+
+    copy_password_in_frame = customtkinter.CTkButton(tabview.tab("Decrption"),width=50,
+                                 height=30,
+                                 border_color="light blue",
+                                 border_width=2,
+                                 corner_radius=13,
+                                 fg_color="#72B3F9",
+                                 bg_color="gray17",
+                                 text="Copy",
+                                 text_color="white",
+                                 hover_color="light blue",
+                                 font=font_4,
+                                 command=copy_text_to_clipboard_password)
+    
+    copy_password_in_frame.place(x=200,y=95)
+
+    back_button =customtkinter.CTkButton(tabview.tab("Decrption"),width=50,
+                                 height=30,
+                                 border_color="light blue",
+                                 border_width=2,
+                                 corner_radius=13,
+                                 fg_color="#72B3F9",
+                                 bg_color="gray17",
+                                 text="Back",
+                                 text_color="white",
+                                 hover_color="light blue",
+                                 font=font_4,
+                                 command=destroy_frame)
+    back_button.place(x=200,y=150)
+
+    decode_cryption = customtkinter.CTkButton(tabview.tab("Decrption"),
+                                 width=50,
+                                 height=30,
+                                 border_color="light blue",
+                                 border_width=2,
+                                 corner_radius=13,
+                                 fg_color="#72B3F9",
+                                 bg_color="gray17",
+                                 text="Decode",
+                                 text_color="white",
+                                 hover_color="light blue",
+                                 font=font_4,
+                                 command=decode_function)
+    decode_cryption.place(x=60,y=150)
+
     tabview.place(x=35,y=0)
     
 encyption_button = customtkinter.CTkButton(master=screen,
