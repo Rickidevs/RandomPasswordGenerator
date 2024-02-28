@@ -148,7 +148,7 @@ old_slider_value=0
 s = ttk.Style()
 s.theme_use('clam')
 s.configure("green.Horizontal.TProgressbar", foreground='green', background='green')
-strong_password = ttk.Progressbar(screen, orient='vertical', mode='determinate',length=225,value=70.5,style="green.Horizontal.TProgressbar")
+strong_password = ttk.Progressbar(screen, orient='vertical', mode='determinate',length=225,value=64,style="green.Horizontal.TProgressbar")
 strong_password.place(x=290, y=310)
 
 def get_current_value():
@@ -156,8 +156,10 @@ def get_current_value():
     old_value = old_slider_value
     slider_value = int('{: .0f}'.format(current_value.get()))
     old_slider_value = slider_value
-    if slider_value > old_value:  
-        strong_password['value'] += 1.5
+    if slider_value > old_value:
+        slider_value_math = slider_value-old_value  
+        slider_value_math *= 1
+        strong_password['value'] += slider_value_math
         if strong_password["value"]<40:
             s.configure("red.Horizontal.TProgressbar", foreground='red', background='red')
             strong_password.configure(style="red.Horizontal.TProgressbar")
@@ -168,8 +170,10 @@ def get_current_value():
             s.configure("green.Horizontal.TProgressbar", foreground='green', background='green')
             strong_password.configure(style="green.Horizontal.TProgressbar")
         
-    elif slider_value < old_value:      
-        strong_password['value'] -= 1.5
+    elif slider_value < old_value:
+        old_value_math = old_value - slider_value   
+        old_value_math*=1
+        strong_password['value'] -= old_value_math
         if strong_password["value"]<40:
             s.configure("red.Horizontal.TProgressbar", foreground='red', background='red')
             strong_password.configure(style="red.Horizontal.TProgressbar")
@@ -338,7 +342,7 @@ def encyption_screen():
 
     tabview.add("Cryption")  # add tab at the end
     tabview.add("Decrption")  # add tab at the end
-    tabview.set("Decrption")  # set currently visible tab
+    tabview.set("Cryption")  # set currently visible tab
 
     def generate_cryption():
         name_passwrod = name_of_password.get()
