@@ -1,0 +1,125 @@
+#my-area {
+    background-color: #1D8AFF;
+  }
+
+#Moder_rpg{
+    text-align: center;
+    color: white;
+    font-family:  "Anta", sans-serif;
+    font-size: 50;
+}
+
+.anta-regular {
+    font-family: "Anta", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+#home_page_h3{
+    text-align: center;
+    color: white;
+}
+
+#Documentation_button{
+    font-size: 15px;
+    line-height: 1.5;
+    padding: 0 10px;
+    transform: scale(1.2);
+    margin-left: 550;
+    margin-top: -30;
+    font-weight: bold;
+    width: 160px;
+    height: 40px;
+    border-radius: 10px;
+    font-family:  "Anta", sans-serif;
+    border-color: white;
+    background-color: white;
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+  }
+
+#Tutorial_button{
+    font-size: 15px;
+    line-height: 1.5;
+    width: 160px;
+    height: 40px;
+    padding: 0 10px;
+    transform: scale(1.2);
+    margin-left: 800;
+    margin-top: -41;
+    border-radius: 10px;
+    font-family:  "Anta", sans-serif;
+    font-weight: bold;
+    border-color: white;
+    background-color: white;
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+}
+
+#Tutorial_button:active {
+    background-color: #fff;
+    border-color: #ccc;
+  }
+
+
+#Documentation_button:active {
+    background-color: #fff;
+    border-color: #ccc;
+  }
+
+#ico_logo { /* ID'ye göre hedefleme*/
+    width: 32px;   
+    height: 32px; 
+}
+
+body {
+    background-color: #393939;
+    font-family: "Anta", sans-serif;
+}
+
+#paragraph1{
+  text-align: center;
+  color: white;
+}
+
+#firstimage{
+  margin-left: 150px;
+  width: 350px;
+  height: 500px;
+}
+
+#image2{
+  margin-left: 900px;
+  width: 350px;
+  height: 500px;
+}
+
+#paragraph2{
+  margin-left: 650px;
+  margin-top: -450px;
+  color: white;
+  font-size: 20px;
+  margin-right: 30px;
+}
+
+#paragraph3{
+  margin-left: 30px;
+  margin-top: -450px;
+  color: white;
+  font-size: 20px;
+  margin-right: 600px;}
+
+#frame{
+  background-color: 575757;
+  margin-left: 30px;
+  margin-right: 30px;
+  border-radius: 20px;
+  border-width: 20px;
+  border-color: #818181;
+}
+#frame2{
+  background-color: 575757;
+  margin-left: 30px;
+  margin-right: 30px;
+  border-radius: 20px;
+  border-width: 20px;
+  border-color: #818181;
+}

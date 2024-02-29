@@ -9,6 +9,7 @@ import tkinter as tk
 import os
 from pathlib import Path
 from CTkMessagebox import CTkMessagebox
+import webbrowser
 
 number = []
 for i in range(1,38):
@@ -527,8 +528,27 @@ encyption_button = customtkinter.CTkButton(master=screen,
                                  hover_color="light blue",
                                  font=font_4,
                                  command=encyption_screen)
-
 encyption_button.place(x=260,y=250)
+
+def open_local_site():
+    html_dosyasi = "index.html"
+    webbrowser.open_new_tab(html_dosyasi)
+
+tutorial_button = customtkinter.CTkButton(screen,
+                                 width=50,
+                                 height=30,
+                                 border_color="light blue",
+                                 border_width=2,
+                                 corner_radius=20,
+                                 fg_color="#72B3F9",
+                                 bg_color="gray15",
+                                 text=" Tutorial ",
+                                 text_color="white",
+                                 hover_color="light blue",
+                                 font=font_4,
+                                 command=open_local_site)
+tutorial_button.place(x=260,y=300)
+
 
 
 
