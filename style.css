@@ -92,6 +92,42 @@ body {
   height: 500px;
 }
 
+#image3{
+  margin-left: 100px;
+  width: 350px;
+  height: 500px;
+}
+
+#image4{
+  margin-left: 450px;
+  width: 350px;
+  height: 500px;
+}
+
+#image5{
+  margin-left: 500px;
+  width: 350px;
+  height: 500px;
+  margin-top: -500px;
+}
+#image6{
+  margin-left: 100px;
+  width: 350px;
+  height: 500px;
+}
+
+#image7{
+  margin-left: 100px;
+  width: 350px;
+  height: 500px;
+}
+
+#image8{
+  margin-left: 600px;
+  width: 350px;
+  height: 500px;
+}
+
 #paragraph2{
   margin-left: 650px;
   margin-top: -450px;
@@ -107,6 +143,43 @@ body {
   font-size: 20px;
   margin-right: 600px;}
 
+#paragraph4{
+    margin-left: 30px;
+    margin-top: 20px;
+    color: white;
+    font-size: 20px;
+    margin-right: 30px;}
+
+#paragraph5{
+  margin-left: 500px;
+  margin-top: -450px;
+  color: white;
+  font-size: 20px;
+  margin-right: 30px;}
+
+#paragraph6{
+    text-align: center;
+    color: white;
+    font-size: 25px;}
+
+#paragraph7{
+      margin-left: 20px;
+      margin-right: 20px;
+      color: white;
+    margin-top: 300px;}
+
+#h6title{
+    margin-left: 20px;
+    margin-right: 20px;
+    color: white;
+}
+
+  #encryption{
+    text-align: center;
+    margin-top: -450px; 
+    color: white;
+    font-size: 70px;}
+
 #frame{
   background-color: 575757;
   margin-left: 30px;
@@ -116,6 +189,33 @@ body {
   border-color: #818181;
 }
 #frame2{
+  background-color: 575757;
+  margin-left: 30px;
+  margin-right: 30px;
+  border-radius: 20px;
+  border-width: 20px;
+  border-color: #818181;
+}
+
+#frame3{
+  background-color: 575757;
+  margin-left: 30px;
+  margin-right: 30px;
+  border-radius: 20px;
+  border-width: 20px;
+  border-color: #818181;
+}
+
+#frame4{
+  background-color: 575757;
+  margin-left: 30px;
+  margin-right: 30px;
+  border-radius: 20px;
+  border-width: 20px;
+  border-color: #818181;
+}
+
+#frame5{
   background-color: 575757;
   margin-left: 30px;
   margin-right: 30px;
