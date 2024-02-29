@@ -348,7 +348,7 @@ def encyption_screen():
                                  font=font_4,
                                  command=destroy_frame)
 
-    back_button =customtkinter.CTkButton(tabview.tab("Decrption"),width=50,
+    back_buttond =customtkinter.CTkButton(tabview.tab("Decrption"),width=50,
                                  height=30,
                                  border_color="light blue",
                                  border_width=2,
@@ -386,7 +386,7 @@ def encyption_screen():
     encryption_password.place(x=17,y=55)
     show_password_frame.place(x=17,y=95)
     copy_password_in_frame.place(x=200,y=95)
-    back_button.place(x=200,y=150)
+    back_buttond.place(x=200,y=150)
     decode_cryption.place(x=60,y=150)
     tabview.place(x=35,y=0)
 
