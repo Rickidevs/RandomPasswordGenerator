@@ -1,0 +1,5 @@
+font_1 = ("Arial",105)
+font_2 = ("Arial", 50,"bold")
+font_3 = ("Arial", 20)
+font_4 = ("Arial",15,"bold")
+font_5 = ("Arial",15)

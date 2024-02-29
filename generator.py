@@ -1,34 +1,8 @@
-import customtkinter 
-import tempfile, base64, zlib
-from PIL import Image, ImageTk
-import random
-import string
-import pyperclip
-from tkinter import ttk
-import tkinter as tk
-import os
-from pathlib import Path
-from CTkMessagebox import CTkMessagebox
-import webbrowser
-
-number = []
-for i in range(1,38):
-    number.append(i)
-
-special_characters_list = string.punctuation
-letters = string.ascii_lowercase 
-letters_upper = string.ascii_uppercase
-number = string.digits
+from imports import *
 
 
-ICON = zlib.decompress(base64.b64decode('eJxjYGAEQgEBBiDJwZDBy'
-    'sAgxsDAoAHEQCEGBQaIOAg4sDIgACMUj4JRMApGwQgF/ykEAFXxQRc='))
-
-_, ICON_PATH = tempfile.mkstemp()
-with open(ICON_PATH, 'wb') as icon_file:
-    icon_file.write(ICON)
-
-
+#--------- SCREEN SETTINGS ----------#
+    
 screen = customtkinter.CTk()
 screen.title("Modern RPG")
 screen.geometry("370x500")
@@ -36,11 +10,30 @@ screen._set_appearance_mode("dark")
 screen.resizable(False,False)
 screen.iconbitmap(default=ICON_PATH)
 
+
+#----------- GLOBAL VALUES --------#
+
 slider_value = 7
 special_value = "on"
 upper_value = "on"
 number_value = "on"
 chosen_password = ""
+special_characters_var = customtkinter.StringVar(value="on")
+upper_charascters_var = customtkinter.StringVar(value="on")
+number_charascters_var = customtkinter.StringVar(value="on")
+current_value = customtkinter.DoubleVar(value=7)
+old_slider_value=0
+
+
+#--------------------------------- PROGRESS BAR -----------------------------------------#
+s = ttk.Style()
+s.theme_use('clam')
+s.configure("green.Horizontal.TProgressbar", foreground='green', background='green')
+strong_password = ttk.Progressbar(screen, orient='vertical', mode='determinate',length=225,value=64,style="green.Horizontal.TProgressbar")
+
+
+#-------------------- FUNCTIONS -------------------------------------------#
+
 def generate_password():
     global chosen_password
     copy_button.configure(text=" Copy  ")
@@ -76,81 +69,10 @@ def generate_password():
     else:
         password_show_label.configure(text=chosen_password)
     
+
 def copy_text_to_clipboard():
     pyperclip.copy(chosen_password)
     copy_button.configure(text="Copied")
-
-font_1 = ("Arial",105)
-font_2 = ("Arial", 50,"bold")
-font_3 = ("Arial", 20)
-font_4 = ("Arial",15,"bold")
-font_5 = ("Arial",15)
-
-
-logo_frame = customtkinter.CTkFrame(screen, width=350,
-                               height=160,
-                               fg_color="gray16",
-                               border_width=2,
-                               border_color="gray25",
-                               corner_radius=20)
-logo_frame.place(x=8,y=8)
-
-monkey_logo = customtkinter.CTkLabel(screen,text="🫣", font=font_1, text_color="#72B3F9",bg_color="gray16")
-monkey_logo.place(x=180, y=10)
-dont_panic = customtkinter.CTkLabel(screen,text="Don't", font=font_2, text_color="#72B3F9",bg_color="gray16")
-dont_panic.place(x=10, y=20)
-dont_panic_1 = customtkinter.CTkLabel(screen,text="panic", font=font_2, text_color="#72B3F9",bg_color="gray16")
-dont_panic_1.place(x=30, y=70)
-dont_panic_1 = customtkinter.CTkLabel(screen,text="i don't look your password ehehe", font=font_3, text_color="#72B3F9",bg_color="gray16")
-dont_panic_1.place(x=50, y=130)
-
-show_text_frame= customtkinter.CTkFrame(screen, width=250,
-                               height=30,
-                               fg_color="white",
-                               border_width=2,
-                               border_color="gray40",
-                               bg_color="gray15",
-                               corner_radius=20)
-show_text_frame.place(x=20, y=185)
-
-password_show_label = customtkinter.CTkLabel(screen, text="",text_color="black",fg_color="white",height=15)
-password_show_label.place(x=35,y=190)
-
-copy_button = customtkinter.CTkButton(master=screen,
-                                 width=30,
-                                 height=30,
-                                 border_color="light blue",
-                                 border_width=2,
-                                 corner_radius=20,
-                                 fg_color="#72B3F9",
-                                 bg_color="gray15",
-                                 text=" Copy  ",
-                                 text_color="white",
-                                 hover_color="light blue",
-                                 font=font_4,
-                                 command=copy_text_to_clipboard)
-
-copy_button.place(x=280,y=185)
-
-
-slider_frame = customtkinter.CTkFrame(screen, width=200,
-                               height=60,
-                               fg_color="gray20",
-                               border_width=2,
-                               border_color="gray40",
-                               bg_color="gray15",
-                               corner_radius=15)
-
-slider_frame.place(x= 12, y=245)
-
-current_value = customtkinter.DoubleVar(value=7)
-old_slider_value=0
-
-s = ttk.Style()
-s.theme_use('clam')
-s.configure("green.Horizontal.TProgressbar", foreground='green', background='green')
-strong_password = ttk.Progressbar(screen, orient='vertical', mode='determinate',length=225,value=64,style="green.Horizontal.TProgressbar")
-strong_password.place(x=290, y=310)
 
 def get_current_value():
     global slider_value,old_slider_value,strong_password
@@ -188,34 +110,10 @@ def get_current_value():
         pass
 
     return '{: .0f}'.format(current_value.get())
-
+    
 
 def slider_changed(event):
     value_of_slider.configure(text=f"length of password:{get_current_value()}")
-
-password_length_scroll = customtkinter.CTkSlider(screen, from_=7, to=36,variable=current_value,command=slider_changed,width=180,bg_color="gray20")
-password_length_scroll.place(x=20,y=250)
-password_length = get_current_value()
-print(password_length)
-
-value_of_slider = customtkinter.CTkLabel(screen,text=f"length of password:{get_current_value()}",font=font_4,bg_color="gray20")
-value_of_slider.place(x=25,y=270)
-
-switch_frame = customtkinter.CTkFrame(screen, width=200,
-                               height=110,
-                               fg_color="gray20",
-                               border_width=2,
-                               border_color="gray40",
-                               bg_color="gray15",
-                               corner_radius=15)
-
-switch_frame.place(x=10,y=320)
-
-captial_and_special_label = customtkinter.CTkLabel(screen,text="----------------------------------", bg_color="gray20",text_color="gray40")
-captial_and_special_label.place(x=40,y=344)
-
-captial_and_number_label = customtkinter.CTkLabel(screen,text="----------------------------------", bg_color="gray20",text_color="gray40")
-captial_and_number_label.place(x=40,y=378)
 
 def get_special_characters():
     global special_value
@@ -244,12 +142,6 @@ def get_special_characters():
             strong_password.configure(style="green.Horizontal.TProgressbar")
 
 
-special_characters_var = customtkinter.StringVar(value="on")
-
-special_characters = customtkinter.CTkSwitch(screen ,text="Special characters",variable=special_characters_var, onvalue="on", offvalue="off",command=get_special_characters,font=font_4,bg_color="gray20")
-special_characters.place(x=20,y=330)
-
-
 def get_upper_characters():
     global upper_value
     upper_value = upper_charascters_var.get()
@@ -275,11 +167,6 @@ def get_upper_characters():
         elif  strong_password["value"] >= 70:
             s.configure("green.Horizontal.TProgressbar", foreground='green', background='green')
             strong_password.configure(style="green.Horizontal.TProgressbar")
-
-upper_charascters_var = customtkinter.StringVar(value="on")
-
-upper_charascters = customtkinter.CTkSwitch(screen ,text="Capital letters",variable=upper_charascters_var, onvalue="on", offvalue="off",command=get_upper_characters,font=font_4,width=5,bg_color="gray20")
-upper_charascters.place(x=20,y=365)
 
 
 def get_number_characters():
@@ -308,28 +195,6 @@ def get_number_characters():
             s.configure("green.Horizontal.TProgressbar", foreground='green', background='green')
             strong_password.configure(style="green.Horizontal.TProgressbar")
 
-number_charascters_var = customtkinter.StringVar(value="on")
-
-number_charascters = customtkinter.CTkSwitch(screen ,text="Number characters",variable=number_charascters_var, onvalue="on", offvalue="off",command=get_number_characters,font=font_4,width=5,bg_color="gray20")
-number_charascters.place(x=20,y=395)
-
-
-password_button = customtkinter.CTkButton(master=screen,
-                                 width=50,
-                                 height=30,
-                                 border_color="light blue",
-                                 border_width=2,
-                                 corner_radius=20,
-                                 fg_color="#72B3F9",
-                                 bg_color="gray15",
-                                 text="Generate password",
-                                 text_color="white",
-                                 hover_color="light blue",
-                                 font=font_4,
-                                 command=generate_password)
-
-password_button.place(x=20,y=450)
-
 
 def encyption_screen():
 
@@ -341,9 +206,9 @@ def encyption_screen():
     escreen_frame.place(x=0,y=230)
     tabview = customtkinter.CTkTabview(master=escreen_frame)
 
-    tabview.add("Cryption")  # add tab at the end
-    tabview.add("Decrption")  # add tab at the end
-    tabview.set("Cryption")  # set currently visible tab
+    tabview.add("Cryption")
+    tabview.add("Decrption") 
+    tabview.set("Cryption")  
 
     def generate_cryption():
         name_passwrod = name_of_password.get()
@@ -392,47 +257,19 @@ def encyption_screen():
 
 
     name_of_password =  customtkinter.CTkEntry(tabview.tab("Cryption"),placeholder_text="Name of password",corner_radius=15,width=250,height=30,font=font_5)
-    name_of_password.place(x=17,y=15)
+    
     password_for_ctyption =  customtkinter.CTkEntry(tabview.tab("Cryption"),placeholder_text="Password for decryption",corner_radius=15,width=250,height=30,font=font_5)
-    password_for_ctyption.place(x=17,y=55)
+    
     note_for_password =  customtkinter.CTkEntry(tabview.tab("Cryption"),placeholder_text="Note for password (optional)",corner_radius=15,width=250,height=30,font=font_5)
-    note_for_password.place(x=17,y=95)
-    save_cryption = customtkinter.CTkButton(tabview.tab("Cryption"),
-                                 width=50,
-                                 height=30,
-                                 border_color="light blue",
-                                 border_width=2,
-                                 corner_radius=13,
-                                 fg_color="#72B3F9",
-                                 bg_color="gray17",
-                                 text="Save",
-                                 text_color="white",
-                                 hover_color="light blue",
-                                 font=font_4,
-                                 command=generate_cryption)
-    save_cryption.place(x=60,y=150)
-
+    
+    
     def destroy_frame():
          escreen_frame.destroy()
 
-    back_button =customtkinter.CTkButton(tabview.tab("Cryption"),width=50,
-                                 height=30,
-                                 border_color="light blue",
-                                 border_width=2,
-                                 corner_radius=13,
-                                 fg_color="#72B3F9",
-                                 bg_color="gray17",
-                                 text="Back",
-                                 text_color="white",
-                                 hover_color="light blue",
-                                 font=font_4,
-                                 command=destroy_frame)
-    back_button.place(x=150,y=150)
 
-    encryption_text = customtkinter.CTkEntry(tabview.tab("Decrption"),placeholder_text="Enter encrypted text",corner_radius=15,width=250,height=30,font=font_5)
-    encryption_text.place(x=17,y=15)
+    encryption_text = customtkinter.CTkEntry(tabview.tab("Decrption"),placeholder_text="Enter encrypted text",corner_radius=15,width=250,height=30,font=font_5)   
     encryption_password = customtkinter.CTkEntry(tabview.tab("Decrption"),placeholder_text="Enter Password",corner_radius=15,width=250,height=30,font=font_5)
-    encryption_password.place(x=17,y=55)
+    
 
     def copy_text_to_clipboard_password():
         try:
@@ -467,8 +304,24 @@ def encyption_screen():
                                border_color="gray40",
                                bg_color="gray15",
                                corner_radius=20)
-    show_password_frame.place(x=17,y=95)
+    
 
+    #------------- BUTTONS IN DEF -----------------------------------#
+    
+    save_cryption = customtkinter.CTkButton(tabview.tab("Cryption"),
+                                 width=50,
+                                 height=30,
+                                 border_color="light blue",
+                                 border_width=2,
+                                 corner_radius=13,
+                                 fg_color="#72B3F9",
+                                 bg_color="gray17",
+                                 text="Save",
+                                 text_color="white",
+                                 hover_color="light blue",
+                                 font=font_4,
+                                 command=generate_cryption)
+    
     copy_password_in_frame = customtkinter.CTkButton(tabview.tab("Decrption"),width=50,
                                  height=30,
                                  border_color="light blue",
@@ -482,7 +335,18 @@ def encyption_screen():
                                  font=font_4,
                                  command=copy_text_to_clipboard_password)
     
-    copy_password_in_frame.place(x=200,y=95)
+    back_button =customtkinter.CTkButton(tabview.tab("Cryption"),width=50,
+                                 height=30,
+                                 border_color="light blue",
+                                 border_width=2,
+                                 corner_radius=13,
+                                 fg_color="#72B3F9",
+                                 bg_color="gray17",
+                                 text="Back",
+                                 text_color="white",
+                                 hover_color="light blue",
+                                 font=font_4,
+                                 command=destroy_frame)
 
     back_button =customtkinter.CTkButton(tabview.tab("Decrption"),width=50,
                                  height=30,
@@ -496,7 +360,6 @@ def encyption_screen():
                                  hover_color="light blue",
                                  font=font_4,
                                  command=destroy_frame)
-    back_button.place(x=200,y=150)
 
     decode_cryption = customtkinter.CTkButton(tabview.tab("Decrption"),
                                  width=50,
@@ -511,10 +374,107 @@ def encyption_screen():
                                  hover_color="light blue",
                                  font=font_4,
                                  command=decode_function)
-    decode_cryption.place(x=60,y=150)
-
-    tabview.place(x=35,y=0)
     
+    #---------- PLACES IN DEF -------------#
+    
+    name_of_password.place(x=17,y=15)
+    password_for_ctyption.place(x=17,y=55)
+    note_for_password.place(x=17,y=95)
+    save_cryption.place(x=60,y=150)
+    back_button.place(x=150,y=150)
+    encryption_text.place(x=17,y=15)
+    encryption_password.place(x=17,y=55)
+    show_password_frame.place(x=17,y=95)
+    copy_password_in_frame.place(x=200,y=95)
+    back_button.place(x=200,y=150)
+    decode_cryption.place(x=60,y=150)
+    tabview.place(x=35,y=0)
+
+
+def open_local_site():
+    html_file = os.path.join(os.getcwd(), "index.html")
+    webbrowser.open_new_tab(html_file)
+
+
+
+#----------------------- FRAMES ------------------------------------#
+
+logo_frame = customtkinter.CTkFrame(screen, width=350,
+                               height=160,
+                               fg_color="gray16",
+                               border_width=2,
+                               border_color="gray25",
+                               corner_radius=20)
+
+show_text_frame= customtkinter.CTkFrame(screen, width=250,
+                               height=30,
+                               fg_color="white",
+                               border_width=2,
+                               border_color="gray40",
+                               bg_color="gray15",
+                               corner_radius=20)
+
+slider_frame = customtkinter.CTkFrame(screen, width=200,
+                               height=60,
+                               fg_color="gray20",
+                               border_width=2,
+                               border_color="gray40",
+                               bg_color="gray15",
+                               corner_radius=15)
+
+switch_frame = customtkinter.CTkFrame(screen, width=200,
+                               height=110,
+                               fg_color="gray20",
+                               border_width=2,
+                               border_color="gray40",
+                               bg_color="gray15",
+                               corner_radius=15)
+
+
+
+#------------------- LABELS ---------------------------#
+
+monkey_logo = customtkinter.CTkLabel(screen,text="🫣", font=font_1, text_color="#72B3F9",bg_color="gray16")
+dont_panic = customtkinter.CTkLabel(screen,text="Don't", font=font_2, text_color="#72B3F9",bg_color="gray16")
+dont_panic_1 = customtkinter.CTkLabel(screen,text="panic", font=font_2, text_color="#72B3F9",bg_color="gray16")
+dont_panic_1 = customtkinter.CTkLabel(screen,text="i don't look your password ehehe", font=font_3, text_color="#72B3F9",bg_color="gray16")
+password_show_label = customtkinter.CTkLabel(screen, text="",text_color="black",fg_color="white",height=15)
+value_of_slider = customtkinter.CTkLabel(screen,text=f"length of password:{get_current_value()}",font=font_4,bg_color="gray20")
+captial_and_special_label = customtkinter.CTkLabel(screen,text="----------------------------------", bg_color="gray20",text_color="gray40")
+captial_and_number_label = customtkinter.CTkLabel(screen,text="----------------------------------", bg_color="gray20",text_color="gray40")
+
+
+
+#---------------------------- BUTTONS ----------------------------#
+
+copy_button = customtkinter.CTkButton(master=screen,
+                                 width=30,
+                                 height=30,
+                                 border_color="light blue",
+                                 border_width=2,
+                                 corner_radius=20,
+                                 fg_color="#72B3F9",
+                                 bg_color="gray15",
+                                 text=" Copy  ",
+                                 text_color="white",
+                                 hover_color="light blue",
+                                 font=font_4,
+                                 command=copy_text_to_clipboard)
+
+password_button = customtkinter.CTkButton(master=screen,
+                                 width=50,
+                                 height=30,
+                                 border_color="light blue",
+                                 border_width=2,
+                                 corner_radius=20,
+                                 fg_color="#72B3F9",
+                                 bg_color="gray15",
+                                 text="Generate password",
+                                 text_color="white",
+                                 hover_color="light blue",
+                                 font=font_4,
+                                 command=generate_password)
+
 encyption_button = customtkinter.CTkButton(master=screen,
                                  width=50,
                                  height=30,
@@ -528,11 +488,6 @@ encyption_button = customtkinter.CTkButton(master=screen,
                                  hover_color="light blue",
                                  font=font_4,
                                  command=encyption_screen)
-encyption_button.place(x=260,y=250)
-
-def open_local_site():
-    html_dosyasi = "index.html"
-    webbrowser.open_new_tab(html_dosyasi)
 
 tutorial_button = customtkinter.CTkButton(screen,
                                  width=50,
@@ -547,9 +502,48 @@ tutorial_button = customtkinter.CTkButton(screen,
                                  hover_color="light blue",
                                  font=font_4,
                                  command=open_local_site)
+
+
+
+#------------------ SWITCHES ----------------------------------#
+
+special_characters = customtkinter.CTkSwitch(screen ,text="Special characters",variable=special_characters_var, onvalue="on", offvalue="off",command=get_special_characters,font=font_4,bg_color="gray20")
+upper_charascters = customtkinter.CTkSwitch(screen ,text="Capital letters",variable=upper_charascters_var, onvalue="on", offvalue="off",command=get_upper_characters,font=font_4,width=5,bg_color="gray20")
+number_charascters = customtkinter.CTkSwitch(screen ,text="Number characters",variable=number_charascters_var, onvalue="on", offvalue="off",command=get_number_characters,font=font_4,width=5,bg_color="gray20")
+
+
+#--------------------- SLIDER ------------------------------#
+
+password_length_scroll = customtkinter.CTkSlider(screen, from_=7, to=36,variable=current_value,command=slider_changed,width=180,bg_color="gray20")
+password_length_scroll.place(x=20,y=250)
+password_length = get_current_value()
+
+
+
+#---------------- PLACES ---------------------------#
+
+monkey_logo.place(x=180, y=10)
+dont_panic.place(x=10, y=20)
+dont_panic_1.place(x=30, y=70)
+dont_panic_1.place(x=50, y=130)
+show_text_frame.place(x=20, y=185)
+password_show_label.place(x=35,y=190)
+copy_button.place(x=280,y=185)
+logo_frame.place(x=8,y=8)
+slider_frame.place(x=12, y=245)
+strong_password.place(x=290, y=310)
+value_of_slider.place(x=25,y=270)
+switch_frame.place(x=10,y=320)
+captial_and_special_label.place(x=40,y=344)
+captial_and_number_label.place(x=40,y=378)
+special_characters.place(x=20,y=330)
+upper_charascters.place(x=20,y=365)
+number_charascters.place(x=20,y=395)
+password_button.place(x=20,y=450)
+encyption_button.place(x=260,y=250)
 tutorial_button.place(x=260,y=300)
 
 
-
-
-screen.mainloop()
+#-------------------#
+screen.mainloop()   #
+#-------------------#
